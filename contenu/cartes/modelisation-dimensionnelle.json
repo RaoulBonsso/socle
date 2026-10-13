@@ -1,0 +1,50 @@
+[
+  {
+    "id": "modelisation-dimensionnelle-1",
+    "question": "Quelles sont les 4 étapes de conception dimensionnelle de Kimball ?",
+    "reponse": "1. Choisir le processus métier. 2. Déclarer le grain. 3. Identifier les dimensions. 4. Identifier les faits.",
+    "type": "rappel"
+  },
+  {
+    "id": "modelisation-dimensionnelle-2",
+    "question": "Qu'est-ce que le grain d'une table de faits ?",
+    "reponse": "La définition exacte de ce que représente une ligne, par exemple « une ligne de produit dans une commande ». C'est la décision qui conditionne tout le reste.",
+    "type": "rappel"
+  },
+  {
+    "id": "modelisation-dimensionnelle-3",
+    "question": "Fait ou dimension : montant HT, ville du client, quantité, catégorie produit ?",
+    "reponse": "Faits (mesures additives) : montant HT, quantité. Dimensions (contexte) : ville du client, catégorie produit.",
+    "type": "rappel"
+  },
+  {
+    "id": "modelisation-dimensionnelle-4",
+    "question": "Pourquoi une dimension client a-t-elle une clé de substitution distincte de l'identifiant de l'application ?",
+    "reponse": "Pour pouvoir stocker plusieurs versions du même client (SCD 2) et découpler l'entrepôt des identifiants de la source.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "modelisation-dimensionnelle-5",
+    "question": "Quelles sont les deux opérations d'un changement SCD type 2 ?",
+    "reponse": "Fermer la version courante (`valide_au` renseigné, `est_courant = false`) puis insérer la nouvelle version, dans la même transaction.",
+    "type": "code"
+  },
+  {
+    "id": "modelisation-dimensionnelle-6",
+    "question": "Que se passe-t-il si on joint les faits à `dim_client` sur `client_id` au lieu de `client_key` ?",
+    "reponse": "Chaque vente est multipliée par le nombre de versions du client : doublons et montants gonflés.",
+    "type": "piege"
+  },
+  {
+    "id": "modelisation-dimensionnelle-7",
+    "question": "Comment garantir en PostgreSQL une seule version courante par client ?",
+    "reponse": "`CREATE UNIQUE INDEX ON dim_client (client_id) WHERE est_courant;` (index unique partiel).",
+    "type": "code"
+  },
+  {
+    "id": "modelisation-dimensionnelle-8",
+    "question": "Pourquoi ne faut-il pas sommer un prix unitaire ou un pourcentage stocké dans les faits ?",
+    "reponse": "Ce sont des faits non additifs. On stocke les composantes additives (montant, quantité) et on calcule le ratio au moment de la requête.",
+    "type": "piege"
+  }
+]

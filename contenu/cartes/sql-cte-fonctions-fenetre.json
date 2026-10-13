@@ -1,0 +1,50 @@
+[
+  {
+    "id": "sql-cte-fonctions-fenetre-1",
+    "question": "Quelle différence entre `GROUP BY` et une fonction de fenêtre sur le nombre de lignes renvoyées ?",
+    "reponse": "`GROUP BY` fusionne les lignes d'un groupe en une seule. Une fonction de fenêtre garde toutes les lignes et ajoute à chacune une valeur calculée sur ses voisines.",
+    "type": "rappel"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-2",
+    "question": "Écris l'expression qui donne le CA du mois précédent dans une CTE `ca_mensuel(mois, ca)`.",
+    "reponse": "`lag(ca) OVER (ORDER BY mois)`",
+    "type": "code"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-3",
+    "question": "Pour 100, 90, 90, 80 triés décroissants, que donnent `rank()` et `dense_rank()` ?",
+    "reponse": "`rank()` : 1, 2, 2, 4. `dense_rank()` : 1, 2, 2, 3.",
+    "type": "rappel"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-4",
+    "question": "Pourquoi `WHERE row_number() OVER (...) <= 3` est-il refusé par PostgreSQL ?",
+    "reponse": "Les fonctions de fenêtre sont calculées après le `WHERE`. On filtre dans une requête englobante (sous-requête ou CTE). `QUALIFY` n'existe pas en PostgreSQL.",
+    "type": "piege"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-5",
+    "question": "Pourquoi `last_value(x) OVER (ORDER BY d)` renvoie-t-il la valeur de la ligne courante ?",
+    "reponse": "Avec un `ORDER BY`, le cadre par défaut s'arrête à la ligne courante (et ses ex æquo). Il faut `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`.",
+    "type": "piege"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-6",
+    "question": "Écris une moyenne mobile sur 7 jours de `ca` triée par `jour`.",
+    "reponse": "`avg(ca) OVER (ORDER BY jour ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)`",
+    "type": "code"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-7",
+    "question": "Comment calculer la part de chaque client dans le CA total, dans une requête avec `GROUP BY client_id` ?",
+    "reponse": "`100 * sum(montant) / sum(sum(montant)) OVER ()` : l'agrégat interne vient du `GROUP BY`, l'externe est une fenêtre sur toutes les lignes groupées.",
+    "type": "code"
+  },
+  {
+    "id": "sql-cte-fonctions-fenetre-8",
+    "question": "Pourquoi ajouter un critère de départage (`ORDER BY montant DESC, id`) à un `row_number()` ?",
+    "reponse": "Sans tri déterministe, les ex æquo peuvent être numérotés dans un ordre différent à chaque exécution : résultats instables et tests non reproductibles.",
+    "type": "pourquoi"
+  }
+]

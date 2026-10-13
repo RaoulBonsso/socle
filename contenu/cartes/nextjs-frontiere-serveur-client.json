@@ -1,0 +1,50 @@
+[
+  {
+    "id": "nextjs-frontiere-serveur-client-1",
+    "question": "Que déclare `\"use client\"` en tête d'un fichier ?",
+    "reponse": "Une frontière : ce fichier, tous ses imports et les composants qu'il rend directement sont inclus dans le bundle client.",
+    "type": "rappel"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-2",
+    "question": "Pourquoi passer un objet utilisateur complet en props à un Client Component est-il une fuite ?",
+    "reponse": "Toutes les props sont sérialisées et envoyées au navigateur, même les champs non affichés. On passe un DTO réduit aux champs utiles.",
+    "type": "piege"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-3",
+    "question": "Que se passe-t-il si un module avec `import \"server-only\"` est importé depuis un Client Component ?",
+    "reponse": "Le build échoue avec une erreur explicite.",
+    "type": "rappel"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-4",
+    "question": "Une variable `API_KEY` (sans `NEXT_PUBLIC_`) est lue dans du code exécuté côté client : que vaut-elle ?",
+    "reponse": "Une chaîne vide : seules les variables `NEXT_PUBLIC_` sont incluses dans le bundle, et elles y sont inscrites en dur au build.",
+    "type": "piege"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-5",
+    "question": "Pourquoi une vérification de rôle dans `page.tsx` ne protège-t-elle pas une Server Action de la page ?",
+    "reponse": "Une Server Action est atteignable par une requête POST directe. Elle doit ré-authentifier et ré-autoriser elle-même.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-6",
+    "question": "Comment garder un Server Component à l'intérieur d'un Client Component (modal, provider) ?",
+    "reponse": "Le passer en `children` (ou en prop) depuis un Server Component parent : il est rendu côté serveur, seul son résultat est transmis.",
+    "type": "code"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-7",
+    "question": "Quelles sont les trois responsabilités d'une couche d'accès aux données (DAL) selon la doc Next.js ?",
+    "reponse": "Ne tourner que sur le serveur, faire les contrôles d'autorisation, renvoyer des DTO minimaux.",
+    "type": "rappel"
+  },
+  {
+    "id": "nextjs-frontiere-serveur-client-8",
+    "question": "Comment empêcher un admin de l'équipe A de supprimer un membre de l'équipe B (IDOR) ?",
+    "reponse": "Filtrer par la ressource ET l'appartenance : `DELETE FROM users WHERE id = $1 AND equipe_id = $session.equipeId`, et répondre pareil si rien n'est supprimé.",
+    "type": "code"
+  }
+]

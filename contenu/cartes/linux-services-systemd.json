@@ -1,0 +1,50 @@
+[
+  {
+    "id": "linux-services-systemd-1",
+    "question": "Que font respectivement `systemctl start`, `systemctl enable` et `systemctl enable --now` ?",
+    "reponse": "`start` lance le service maintenant ; `enable` l'active au prochain démarrage de la machine ; `enable --now` fait les deux.",
+    "type": "rappel"
+  },
+  {
+    "id": "linux-services-systemd-2",
+    "question": "Quelle commande affiche uniquement les erreurs du service `api` depuis le dernier démarrage de la machine ?",
+    "reponse": "`journalctl -u api -p err -b`",
+    "type": "code"
+  },
+  {
+    "id": "linux-services-systemd-3",
+    "question": "Tu viens de modifier `/etc/systemd/system/api.service`. Quelle commande lancer avant de redémarrer le service, et pourquoi ?",
+    "reponse": "`sudo systemctl daemon-reload` : sans elle, systemd continue d'utiliser l'ancienne version du fichier d'unité.",
+    "type": "piege"
+  },
+  {
+    "id": "linux-services-systemd-4",
+    "question": "Pourquoi `Restart=on-failure` est-il indispensable pour un backend lancé par systemd ?",
+    "reponse": "Il relance automatiquement le process s'il sort avec une erreur ou est tué par un signal. Sans lui, un crash laisse le service arrêté jusqu'à une intervention humaine.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "linux-services-systemd-5",
+    "question": "Comment modifier une unité installée par un paquet sans que la prochaine mise à jour écrase ta modification ?",
+    "reponse": "`sudo systemctl edit <unité>` crée un drop-in `override.conf` dans `/etc/systemd/system/<unité>.d/`. On ne modifie jamais le fichier sous `/usr/lib/systemd/system/`.",
+    "type": "rappel"
+  },
+  {
+    "id": "linux-services-systemd-6",
+    "question": "Quelle est la différence entre `After=` et `Wants=` dans la section `[Unit]` ?",
+    "reponse": "`After=` fixe seulement l'ordre de démarrage. `Wants=` (ou `Requires=`) crée la dépendance qui fait démarrer l'autre unité. On les combine souvent.",
+    "type": "piege"
+  },
+  {
+    "id": "linux-services-systemd-7",
+    "question": "Quel est l'intérêt de `DynamicUser=yes` et `ProtectSystem=strict` ?",
+    "reponse": "Le service tourne sous un utilisateur éphémère sans privilèges, et le système de fichiers est en lecture seule pour lui. Une faille dans l'application a donc un impact limité : c'est le moindre privilège.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "linux-services-systemd-8",
+    "question": "Quelle commande donne un score d'exposition des options de sandboxing d'un service ?",
+    "reponse": "`systemd-analyze security demo-http.service` (score de 0 à 10, plus bas = mieux protégé).",
+    "type": "code"
+  }
+]

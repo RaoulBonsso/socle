@@ -1,0 +1,50 @@
+[
+  {
+    "id": "sql-explain-index-1",
+    "question": "Quelle différence entre `EXPLAIN` et `EXPLAIN ANALYZE` ?",
+    "reponse": "`EXPLAIN` montre le plan estimé sans exécuter. `EXPLAIN ANALYZE` exécute réellement la requête et ajoute temps et nombres de lignes réels.",
+    "type": "rappel"
+  },
+  {
+    "id": "sql-explain-index-2",
+    "question": "Comment lancer `EXPLAIN ANALYZE` sur un `DELETE` sans supprimer de données ?",
+    "reponse": "L'entourer d'une transaction annulée : `BEGIN; EXPLAIN ANALYZE DELETE ...; ROLLBACK;`",
+    "type": "piege"
+  },
+  {
+    "id": "sql-explain-index-3",
+    "question": "Quel indice dans un plan signale le plus souvent un index manquant ?",
+    "reponse": "Un `Seq Scan` avec un grand `Rows Removed by Filter` pour peu de lignes gardées.",
+    "type": "rappel"
+  },
+  {
+    "id": "sql-explain-index-4",
+    "question": "Estimé `rows=5`, réel `actual rows=48000` : que faire en premier ?",
+    "reponse": "Mettre à jour les statistiques avec `ANALYZE nom_table;`, puis relire le plan.",
+    "type": "code"
+  },
+  {
+    "id": "sql-explain-index-5",
+    "question": "Quel index pour `WHERE user_id = $1 ORDER BY cree_le DESC LIMIT 10`, et pourquoi cet ordre ?",
+    "reponse": "`CREATE INDEX ON evenements (user_id, cree_le DESC);` : égalité d'abord, puis la colonne de tri. Les lignes sortent déjà triées, sans étape Sort.",
+    "type": "code"
+  },
+  {
+    "id": "sql-explain-index-6",
+    "question": "Pourquoi `WHERE date(cree_le) = '2026-03-01'` n'utilise-t-il pas l'index sur `cree_le` ?",
+    "reponse": "Une fonction appliquée à la colonne empêche l'usage de l'index B-tree. Réécris en plage (`cree_le >= '2026-03-01' AND cree_le < '2026-03-02'`) ou crée un index sur l'expression.",
+    "type": "piege"
+  },
+  {
+    "id": "sql-explain-index-7",
+    "question": "Pourquoi utiliser `CREATE INDEX CONCURRENTLY` en production ?",
+    "reponse": "Un `CREATE INDEX` classique bloque les écritures sur la table pendant la construction. `CONCURRENTLY` les laisse passer, au prix d'une construction plus lente, et il ne peut pas tourner dans une transaction.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "sql-explain-index-8",
+    "question": "Pourquoi un index sur une colonne `type` à 3 valeurs est-il souvent ignoré ?",
+    "reponse": "Chaque valeur couvre environ un tiers de la table. Lire la table séquentiellement coûte moins cher que des milliers d'accès via l'index : le planificateur a raison.",
+    "type": "pourquoi"
+  }
+]

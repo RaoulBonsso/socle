@@ -1,0 +1,50 @@
+[
+  {
+    "id": "architecture-hexagonale-ts-1",
+    "question": "Quelle est la règle de dépendance de l'architecture hexagonale ?",
+    "reponse": "Les dépendances pointent vers le centre : le domaine ne connaît aucun adaptateur, ni framework, ni base de données.",
+    "type": "rappel"
+  },
+  {
+    "id": "architecture-hexagonale-ts-2",
+    "question": "Différence entre port primaire et port secondaire ?",
+    "reponse": "Primaire (entrant) : ce que le domaine offre, ses cas d'usage. Secondaire (sortant) : ce dont il a besoin (repository, horloge, notifieur), défini par le domaine et implémenté par un adaptateur.",
+    "type": "rappel"
+  },
+  {
+    "id": "architecture-hexagonale-ts-3",
+    "question": "Une Server Action Next.js qui appelle `reserverCreneau` : quel rôle joue-t-elle ?",
+    "reponse": "Un adaptateur primaire : elle traduit une requête HTTP en appel du cas d'usage, et les erreurs du domaine en réponse pour l'interface.",
+    "type": "rappel"
+  },
+  {
+    "id": "architecture-hexagonale-ts-4",
+    "question": "Pourquoi injecter une `Horloge` au lieu d'appeler `new Date()` dans le cas d'usage ?",
+    "reponse": "Pour tester de façon déterministe les règles qui dépendent du temps (« pas de réservation dans le passé ») avec une horloge fixe.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "architecture-hexagonale-ts-5",
+    "question": "Écris la signature d'un port de persistance pour les réservations.",
+    "reponse": "`interface ReservationRepository { trouverParCreneau(c: string): Promise<Reservation | null>; enregistrer(r: Reservation): Promise<void>; }`",
+    "type": "code"
+  },
+  {
+    "id": "architecture-hexagonale-ts-6",
+    "question": "Le domaine vérifie « créneau libre » puis enregistre. Pourquoi ça ne suffit pas contre deux requêtes simultanées ?",
+    "reponse": "Les deux requêtes peuvent passer la vérification avant d'enregistrer. La garantie doit venir de la base (contrainte `UNIQUE`), et le domaine traduit l'erreur.",
+    "type": "piege"
+  },
+  {
+    "id": "architecture-hexagonale-ts-7",
+    "question": "Pourquoi `constructor(private repo: Repo)` échoue-t-il avec l'exécution TypeScript native de Node ?",
+    "reponse": "Node ne fait que retirer les types. Les propriétés de paramètres (comme les `enum`) exigent une transformation et provoquent `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`.",
+    "type": "piege"
+  },
+  {
+    "id": "architecture-hexagonale-ts-8",
+    "question": "Quand l'architecture hexagonale est-elle disproportionnée ?",
+    "reponse": "Pour un prototype, une landing page ou un CRUD sans règle métier : on paie l'indirection sans bénéfice.",
+    "type": "pourquoi"
+  }
+]

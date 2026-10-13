@@ -1,0 +1,133 @@
+{
+  "pistes": [
+    {
+      "id": "devops",
+      "titre": "DevOps & plateforme",
+      "description": "Du VPS bien tenu à la plateforme qu'une équipe peut opérer sereinement : Linux et réseau, conteneurs, CI/CD, infrastructure as code, Kubernetes, puis observabilité et fiabilité (SRE).",
+      "modules": [
+        {
+          "id": "linux-reseau",
+          "titre": "Linux & réseau pour l'exploitation",
+          "lecons": ["linux-services-systemd", "reseau-diagnostic-ports-dns", "bash-scripts-robustes-timers"],
+          "aVenir": ["Utilisateurs, permissions et sudo sans se tirer une balle dans le pied", "SSH par clé, bastion et durcissement d'un serveur", "Reverse proxy et TLS automatique (Nginx ou Caddy, Let's Encrypt)", "Disque plein : logs, rotation et journald"]
+        },
+        {
+          "id": "conteneurs",
+          "titre": "Conteneurs avancés",
+          "lecons": [],
+          "aVenir": ["Dockerfile multi-étapes et cache de build", "Images minimales, utilisateur non-root et scan de vulnérabilités", "Réseaux, volumes et healthchecks dans Docker Compose", "Limites mémoire/CPU : comprendre un OOMKilled", "Registre d'images et stratégie de tags"]
+        },
+        {
+          "id": "ci-cd",
+          "titre": "CI/CD",
+          "lecons": [],
+          "aVenir": ["GitHub Actions : jobs, matrices et cache", "Secrets en CI : OIDC plutôt que clés longue durée", "Pipeline build → test → image → déploiement", "Stratégies de déploiement : rolling, blue/green, canary", "Supply chain : SBOM, signature d'images, provenance"]
+        },
+        {
+          "id": "iac-terraform",
+          "titre": "Infrastructure as Code avec Terraform",
+          "lecons": [],
+          "aVenir": ["Providers, ressources et plan/apply", "State distant, verrouillage et travail en équipe", "Modules réutilisables et environnements", "Dérive de configuration et import de l'existant", "Ansible pour la configuration des machines"]
+        },
+        {
+          "id": "kubernetes",
+          "titre": "Kubernetes",
+          "lecons": [],
+          "aVenir": ["Pods, Deployments et Services : le modèle déclaratif", "ConfigMaps, Secrets et probes", "Ingress et exposition HTTP", "Requests, limits et autoscaling", "Helm et Kustomize", "GitOps avec Argo CD"]
+        },
+        {
+          "id": "observabilite-sre",
+          "titre": "Observabilité & SRE",
+          "lecons": [],
+          "aVenir": ["Métriques avec Prometheus et tableaux Grafana", "Logs structurés et centralisation", "Traces distribuées avec OpenTelemetry", "SLI, SLO et budget d'erreur", "Alerting utile et astreinte", "Post-mortem sans reproche"]
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "titre": "Data engineering",
+      "description": "De la requête SQL bien écrite au pipeline de données fiable : modélisation, Python data, orchestration, transformation avec dbt, formats et moteurs analytiques, puis qualité et gouvernance.",
+      "modules": [
+        {
+          "id": "sql-modelisation",
+          "titre": "SQL avancé & modélisation",
+          "lecons": ["sql-cte-fonctions-fenetre", "sql-explain-index", "modelisation-dimensionnelle"],
+          "aVenir": ["Transactions, niveaux d'isolation et verrous", "Normalisation vs dénormalisation : choisir en connaissance de cause", "Upserts et idempotence (INSERT … ON CONFLICT, MERGE)", "Partitionnement de tables volumineuses"]
+        },
+        {
+          "id": "python-data",
+          "titre": "Python pour la data (pandas, polars)",
+          "lecons": [],
+          "aVenir": ["Environnements reproductibles avec uv", "pandas : nettoyer un CSV réel sans boucle", "polars : API lazy et performances", "Dates et fuseaux horaires sans douleur", "Tests de transformations avec pytest"]
+        },
+        {
+          "id": "orchestration-airflow",
+          "titre": "Orchestration avec Airflow",
+          "lecons": [],
+          "aVenir": ["DAG, tâches et dépendances", "Idempotence et intervalles de données", "Backfill et reprise sur erreur", "Connexions, variables et secrets", "Alternatives : Dagster, Prefect, cron bien fait"]
+        },
+        {
+          "id": "transformation-dbt",
+          "titre": "Transformation avec dbt",
+          "lecons": [],
+          "aVenir": ["Modèles, sources et ref()", "Tests de données génériques et singuliers", "Modèles incrémentaux sans doublons", "Snapshots : la SCD 2 automatisée", "Documentation et lignage"]
+        },
+        {
+          "id": "entrepot-lakehouse",
+          "titre": "Entrepôts & lakehouse",
+          "lecons": [],
+          "aVenir": ["DuckDB : l'analytique locale qui va vite", "Parquet : stockage en colonnes et partitionnement", "Formats de tables ouverts (Iceberg, Delta)", "Spark : quand le volume l'exige vraiment", "Stockage objet S3 compatible"]
+        },
+        {
+          "id": "qualite-gouvernance",
+          "titre": "Qualité & gouvernance",
+          "lecons": [],
+          "aVenir": ["Contrats de données entre équipes", "Observabilité des pipelines : fraîcheur, volume, schéma", "RGPD pour les data engineers : minimisation et durées de conservation", "Catalogue, lignage et propriété des données", "Open data : publier sur data.gouv.fr"]
+        }
+      ]
+    },
+    {
+      "id": "fullstack",
+      "titre": "Full stack",
+      "description": "Au-delà du « ça marche » : une architecture qui survit au framework, des tests qui protègent, des pages rapides, une application sûre, des API et du temps réel, puis les bases des systèmes distribués.",
+      "modules": [
+        {
+          "id": "architecture-patterns",
+          "titre": "Architecture & patterns",
+          "lecons": ["architecture-hexagonale-ts", "nextjs-frontiere-serveur-client", "validation-aux-frontieres-zod"],
+          "aVenir": ["Gestion d'erreurs typée : exceptions ou Result ?", "Monolithe modulaire avant microservices", "Écrire un ADR pour trancher un choix technique", "Feature flags et déploiement progressif"]
+        },
+        {
+          "id": "tests-avances",
+          "titre": "Tests avancés",
+          "lecons": [],
+          "aVenir": ["La pyramide (et le trophée) des tests en pratique", "Tests d'intégration avec une vraie base en conteneur", "Tests end-to-end avec Playwright", "Tests de contrat d'API", "Tests de propriétés et mutation testing"]
+        },
+        {
+          "id": "performance-web",
+          "titre": "Performance web",
+          "lecons": [],
+          "aVenir": ["Core Web Vitals : LCP, INP, CLS", "Stratégies de rendu et de cache dans Next.js", "Images, polices et bundle JavaScript", "Profiler une page avec les DevTools et Lighthouse", "Cache HTTP et CDN"]
+        },
+        {
+          "id": "securite-owasp",
+          "titre": "Sécurité applicative (OWASP)",
+          "lecons": [],
+          "aVenir": ["OWASP Top 10 sur une appli Next.js", "Authentification, sessions et cookies sûrs", "Contrôle d'accès et IDOR", "XSS, CSP et en-têtes de sécurité", "Gestion des secrets et rotation"]
+        },
+        {
+          "id": "api-temps-reel",
+          "titre": "API & temps réel",
+          "lecons": [],
+          "aVenir": ["Concevoir une API REST avec OpenAPI", "Pagination, idempotence et versionnement d'API", "Webhooks fiables (signature, rejeu)", "WebSockets et Server-Sent Events", "Limitation de débit"]
+        },
+        {
+          "id": "systemes-distribues",
+          "titre": "Systèmes distribués",
+          "lecons": [],
+          "aVenir": ["Files de messages et traitements asynchrones", "Cohérence, réplication et théorème CAP en pratique", "Retries, timeouts et disjoncteurs", "Pattern outbox et événements", "Cache distribué avec Redis"]
+        }
+      ]
+    }
+  ]
+}

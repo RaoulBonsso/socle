@@ -1,0 +1,50 @@
+[
+  {
+    "id": "bash-scripts-robustes-timers-1",
+    "question": "Que font les options de `set -Eeuo pipefail` ?",
+    "reponse": "`-e` quitte à la première erreur, `-u` refuse les variables non définies, `-o pipefail` fait échouer un pipeline si n'importe quelle commande échoue, `-E` propage le piège ERR dans les fonctions.",
+    "type": "rappel"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-2",
+    "question": "Dans quels cas `set -e` ne fait-il PAS quitter le script ?",
+    "reponse": "Quand la commande en échec est dans la condition d'un `if`/`while`, ou à gauche d'un `&&` ou d'un `||`.",
+    "type": "piege"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-3",
+    "question": "Comment garantir la suppression d'un dossier temporaire, quelle que soit la façon dont le script se termine ?",
+    "reponse": "`tmp=\"$(mktemp -d)\"; trap 'rm -rf -- \"$tmp\"' EXIT`",
+    "type": "code"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-4",
+    "question": "Quelle panne `set -o pipefail` évite-t-il dans `pg_dump base | gzip > base.sql.gz` ?",
+    "reponse": "Sans lui, le code de retour est celui de `gzip` (succès) même si `pg_dump` a échoué : on obtient une sauvegarde vide ou tronquée présentée comme réussie.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-5",
+    "question": "Pourquoi ShellCheck signale-t-il `readonly X=\"$(commande)\"` (SC2155) ?",
+    "reponse": "`readonly` (comme `local` ou `export`) renvoie son propre code de retour et masque l'échec de la commande. On assigne d'abord, puis on déclare `readonly X`.",
+    "type": "piege"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-6",
+    "question": "Quelle unité active-t-on pour planifier une sauvegarde : le `.service` ou le `.timer` ?",
+    "reponse": "Le timer : `sudo systemctl enable --now sauvegarde.timer`. Le service, de type `oneshot`, est déclenché par le timer.",
+    "type": "rappel"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-7",
+    "question": "Que fait `Persistent=true` dans un timer systemd ?",
+    "reponse": "Si la machine était éteinte à l'heure prévue, l'exécution manquée est lancée au démarrage suivant.",
+    "type": "rappel"
+  },
+  {
+    "id": "bash-scripts-robustes-timers-8",
+    "question": "Cite deux avantages d'un timer systemd sur cron.",
+    "reponse": "Chaque exécution est journalisée (`journalctl -u x.service`) avec son code de retour visible, et `Persistent=true` rattrape les exécutions manquées. `systemctl list-timers` montre la prochaine échéance.",
+    "type": "pourquoi"
+  }
+]

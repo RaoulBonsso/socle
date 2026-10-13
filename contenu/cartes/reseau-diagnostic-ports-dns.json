@@ -1,0 +1,44 @@
+[
+  {
+    "id": "reseau-diagnostic-ports-dns-1",
+    "question": "Dans quel ordre diagnostiquer « le site ne répond pas » ?",
+    "reponse": "Du bas vers le haut : DNS (le nom donne-t-il la bonne IP ?), TCP (le port répond-il ?), TLS (certificat valide ?), HTTP (code et temps de réponse). On cherche le premier guichet qui échoue.",
+    "type": "rappel"
+  },
+  {
+    "id": "reseau-diagnostic-ports-dns-2",
+    "question": "Quelle commande liste les ports TCP en écoute avec le process propriétaire, sans résolution de noms ?",
+    "reponse": "`sudo ss -tlnp`",
+    "type": "code"
+  },
+  {
+    "id": "reseau-diagnostic-ports-dns-3",
+    "question": "Que signifie `Connection refused` par rapport à un timeout ?",
+    "reponse": "`refused` : la machine répond mais rien n'écoute sur ce port. Timeout : aucune réponse, typiquement un pare-feu qui jette les paquets, une mauvaise IP ou une route cassée.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "reseau-diagnostic-ports-dns-4",
+    "question": "Un service écoute sur `127.0.0.1:3000`. Qui peut le joindre ?",
+    "reponse": "Uniquement les process de la machine elle-même (par exemple un reverse proxy local). Pour être joignable de l'extérieur, il faut écouter sur `0.0.0.0` ou une IP publique.",
+    "type": "rappel"
+  },
+  {
+    "id": "reseau-diagnostic-ports-dns-5",
+    "question": "Comment mesurer où se perd le temps d'une requête HTTPS avec curl ?",
+    "reponse": "`curl -sS -o /dev/null -w 'dns=%{time_namelookup} tcp=%{time_connect} tls=%{time_appconnect} ttfb=%{time_starttransfer} total=%{time_total}\\n' https://site/` (les temps sont cumulés).",
+    "type": "code"
+  },
+  {
+    "id": "reseau-diagnostic-ports-dns-6",
+    "question": "Pourquoi `docker run -p 5432:5432 postgres` est-il dangereux sur un VPS protégé par UFW ?",
+    "reponse": "Le port est publié sur toutes les interfaces et les règles iptables de Docker font passer le trafic avant les règles UFW. Publie sur la boucle locale : `-p 127.0.0.1:5432:5432`.",
+    "type": "piege"
+  },
+  {
+    "id": "reseau-diagnostic-ports-dns-7",
+    "question": "Comment tester un serveur pour un nom de domaine sans modifier le DNS ?",
+    "reponse": "`curl --resolve app.example.com:443:IP https://app.example.com/` force la résolution vers l'IP donnée pour cette requête.",
+    "type": "code"
+  }
+]

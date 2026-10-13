@@ -1,0 +1,50 @@
+[
+  {
+    "id": "validation-aux-frontieres-zod-1",
+    "question": "Cite quatre frontières où des données non fiables entrent dans une appli Next.js.",
+    "reponse": "Corps de requête et FormData, paramètres d'URL et searchParams, en-têtes et cookies, réponses d'API tierces et webhooks, variables d'environnement.",
+    "type": "rappel"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-2",
+    "question": "Que signifie « parse, don't validate » ?",
+    "reponse": "Transformer une donnée `unknown` en valeur typée et normalisée à la frontière, plutôt que répondre seulement valide/invalide. Après, le code manipule des types sûrs.",
+    "type": "pourquoi"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-3",
+    "question": "Différence entre `parse` et `safeParse` en Zod ?",
+    "reponse": "`parse` lève une exception si invalide. `safeParse` renvoie `{ success, data }` ou `{ success, error }`, adapté pour renvoyer des erreurs à un formulaire.",
+    "type": "rappel"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-4",
+    "question": "Comment dériver le type TypeScript d'un schéma Zod ?",
+    "reponse": "`type Reservation = z.infer<typeof ReservationSchema>;`",
+    "type": "code"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-5",
+    "question": "Pourquoi `const body = (await req.json()) as Reservation` ne protège-t-il de rien ?",
+    "reponse": "`as` ne fait aucune vérification à l'exécution : les types disparaissent après compilation. C'est une affirmation au compilateur.",
+    "type": "piege"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-6",
+    "question": "Quelle différence entre `z.object` et `z.strictObject` face à une clé inconnue `role` ?",
+    "reponse": "`z.object` retire silencieusement la clé. `z.strictObject` rejette l'objet avec l'erreur `Unrecognized key`.",
+    "type": "rappel"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-7",
+    "question": "Pourquoi éviter `Object.fromEntries(formData)` avec `z.strictObject` dans une Server Action ?",
+    "reponse": "Next.js ajoute des clés techniques préfixées par `$ACTION_`, que le schéma strict refuse. On lit les champs un par un avec `formData.get()`.",
+    "type": "piege"
+  },
+  {
+    "id": "validation-aux-frontieres-zod-8",
+    "question": "Une donnée validée par Zod peut-elle être concaténée dans une requête SQL ?",
+    "reponse": "Non : un texte valide peut contenir une charge d'injection. Les requêtes paramétrées restent obligatoires ; la validation ne remplace pas l'échappement.",
+    "type": "piege"
+  }
+]
