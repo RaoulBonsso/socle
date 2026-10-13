@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { defi, defis, lecon } from "@/lib/contenu";
 import { enHtml } from "@/lib/markdown";
-import { Atelier } from "./atelier";
+import { Atelier, Correction } from "./atelier";
 import { BadgePiste } from "@/components/piste";
 
 export function generateStaticParams() {
@@ -35,9 +35,12 @@ export default async function PageDefi({ params }: { params: Promise<{ id: strin
         <p className="mt-3 flex flex-wrap gap-1.5">{d.competences.map((c) => <span key={c} className="puce !text-texte">{c}</span>)}</p>
       </header>
       <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
-        <article className="prose-socle min-w-0" dangerouslySetInnerHTML={{ __html: enonce }} />
+        <div className="min-w-0">
+          <article className="prose-socle" dangerouslySetInnerHTML={{ __html: enonce }} />
+          <Correction id={d.id} html={correction} />
+        </div>
         <aside className="min-w-0 space-y-4 lg:sticky lg:top-20 lg:self-start">
-          <Atelier id={d.id} duree={d.duree} indices={d.indices} criteres={d.criteres} livrable={d.livrable} correctionHtml={correction} />
+          <Atelier id={d.id} duree={d.duree} indices={d.indices} criteres={d.criteres} livrable={d.livrable} />
           {d.lecons.length > 0 && (
             <div className="carte p-5 text-sm">
               <h2 className="font-medium">Fiches utiles</h2>

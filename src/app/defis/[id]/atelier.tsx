@@ -13,11 +13,10 @@ interface Props {
   indices: string[];
   criteres: string[];
   livrable: string;
-  correctionHtml: string;
 }
 
 /** L'établi du défi : chrono, hypothèses, indices, soumission, correction, auto-évaluation. */
-export function Atelier({ id, duree, indices, criteres, livrable, correctionHtml }: Props) {
+export function Atelier({ id, duree, indices, criteres, livrable }: Props) {
   const [p, maj] = useProgression();
   const e = p.defis[id];
   const t = useMaintenant();
@@ -128,12 +127,21 @@ export function Atelier({ id, duree, indices, criteres, livrable, correctionHtml
               <pre className="mt-2 whitespace-pre-wrap rounded-xl bg-fond p-3 font-mono text-xs">{e.solution}</pre>
             </details>
           </section>
-          <motion.section initial={reduit ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="carte border-menthe/30 p-6" aria-labelledby="h-cor">
-            <h2 id="h-cor" className="titre-display text-2xl text-menthe">Correction</h2>
-            <div className="prose-socle mt-2" dangerouslySetInnerHTML={{ __html: correctionHtml }} />
-          </motion.section>
         </>
       )}
     </div>
+  );
+}
+
+/** La correction n'apparaît qu'une fois la solution soumise, en pleine largeur sous l'énoncé. */
+export function Correction({ id, html }: { id: string; html: string }) {
+  const [p] = useProgression();
+  const reduit = useReducedMotion();
+  if (!p.defis[id]?.soumisLe) return null;
+  return (
+    <motion.section id="correction" initial={reduit ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="carte mt-10 border-menthe/30 p-6 sm:p-8" aria-labelledby="h-cor">
+      <h2 id="h-cor" className="titre-display text-3xl text-menthe">Correction</h2>
+      <div className="prose-socle mt-2" dangerouslySetInnerHTML={{ __html: html }} />
+    </motion.section>
   );
 }
