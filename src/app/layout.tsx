@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="min-h-full">
         <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-ambre focus:px-4 focus:py-2 focus:text-black">Aller au contenu</a>
-        <header className="sticky top-0 z-40 border-b border-ligne bg-fond/75 backdrop-blur-xl">
+        <header className="sticky top-0 z-40 border-b border-ligne bg-fond/95 md:bg-fond/75 md:backdrop-blur-xl">
           <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight"><Logo /> Socle</Link>
             <Nav />

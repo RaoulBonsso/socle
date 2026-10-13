@@ -7,6 +7,7 @@ import { reviser } from "@/domaine/progression";
 import { aReviser, LIBELLES_NOTE, previsions, type Note } from "@/domaine/srs";
 import type { Carte } from "@/domaine/types";
 import { aujourdhui, useProgression } from "@/lib/stockage";
+import { TexteCode } from "@/components/texte-code";
 
 const TON: Record<Note, string> = { 1: "border-corail/50 hover:bg-corail/10", 2: "border-ambre/40 hover:bg-ambre-doux", 3: "border-menthe/40 hover:bg-menthe-doux", 4: "border-data/40 hover:bg-data/10" };
 const TYPE = { rappel: "Rappel", pourquoi: "Pourquoi ?", code: "Code", piege: "Piège" } as const;
@@ -56,8 +57,8 @@ export function Session({ cartes }: { cartes: Carte[] }) {
         <AnimatePresence mode="wait">
           <motion.div key={c.id + String(retournee)} initial={reduit ? false : { rotateY: retournee ? -90 : 0, opacity: retournee ? 1 : 0, y: retournee ? 0 : 12 }} animate={{ rotateY: 0, opacity: 1, y: 0 }} exit={reduit ? undefined : { rotateY: 90, opacity: 0.6 }} transition={{ duration: 0.22 }} className="carte min-h-72 p-8">
             <p className="puce">{TYPE[c.type]}</p>
-            <p className="mt-6 text-xl leading-relaxed">{c.question}</p>
-            {retournee && <div className="mt-6 whitespace-pre-wrap border-t border-ligne pt-6 font-mono text-[14px] leading-relaxed text-menthe">{c.reponse}</div>}
+            <p className="mt-6 text-xl leading-relaxed"><TexteCode texte={c.question} /></p>
+            {retournee && <div className="mt-6 whitespace-pre-wrap border-t border-ligne pt-6 font-mono text-[14px] leading-relaxed text-menthe"><TexteCode texte={c.reponse} /></div>}
             <Link href={`/fiches/${c.lecon}`} className="mt-6 inline-block text-xs text-discret hover:text-ambre">Fiche d&apos;origine</Link>
           </motion.div>
         </AnimatePresence>
