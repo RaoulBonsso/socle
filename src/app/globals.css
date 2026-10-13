@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/*
+ * Socle — l'atelier de nuit. Ambre pour ce qui presse (le défi, le chrono),
+ * menthe pour ce qui est acquis, et une couleur par piste.
+ */
+:root {
+  --fond: #0a0e0d;
+  --surface: #111715;
+  --surface-2: #18201d;
+  --ligne: rgb(255 255 255 / 0.07);
+  --ligne-forte: rgb(255 255 255 / 0.15);
+  --texte: #ecefe9;
+  --discret: #8e9a94;
+  --ambre: #f4b740;
+  --ambre-doux: rgb(244 183 64 / 0.12);
+  --menthe: #6ee7b7;
+  --menthe-doux: rgb(110 231 183 / 0.12);
+  --corail: #fb7185;
+  --devops: #f4b740;
+  --data: #7dd3fc;
+  --fullstack: #c4b5fd;
+}
+
+@theme inline {
+  --color-fond: var(--fond);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ligne: var(--ligne);
+  --color-ligne-forte: var(--ligne-forte);
+  --color-texte: var(--texte);
+  --color-discret: var(--discret);
+  --color-ambre: var(--ambre);
+  --color-ambre-doux: var(--ambre-doux);
+  --color-menthe: var(--menthe);
+  --color-menthe-doux: var(--menthe-doux);
+  --color-corail: var(--corail);
+  --color-devops: var(--devops);
+  --color-data: var(--data);
+  --color-fullstack: var(--fullstack);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
+}
+
+html { color-scheme: dark; scroll-behavior: smooth; }
+body { background: var(--fond); color: var(--texte); font-family: var(--font-geist-sans), system-ui, sans-serif; overflow-x: hidden; }
+::selection { background: var(--ambre); color: #1a1205; }
+:focus-visible { outline: 2px solid var(--ambre); outline-offset: 3px; border-radius: 6px; }
+
+.titre-display { font-family: var(--font-fraunces), Georgia, serif; font-weight: 500; letter-spacing: -0.02em; line-height: 1.02; font-variation-settings: "opsz" 144; }
+.carte { background: linear-gradient(180deg, rgb(255 255 255 / 0.025), transparent 60%), var(--surface); border: 1px solid var(--ligne); border-radius: 1.25rem; }
+.puce { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; border: 1px solid var(--ligne-forte); padding: .15rem .6rem; font-size: .75rem; color: var(--discret); }
+.halo { background: radial-gradient(50% 45% at 10% 0%, rgb(244 183 64 / 0.12), transparent 70%), radial-gradient(45% 40% at 95% 10%, rgb(125 211 252 / 0.10), transparent 70%); }
+.quadrillage { background-image: linear-gradient(rgb(255 255 255 / .035) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / .035) 1px, transparent 1px); background-size: 32px 32px; }
+
+/* Prose des fiches et défis */
+.prose-socle { line-height: 1.75; color: #d6dcd7; }
+.prose-socle h2 { font-family: var(--font-fraunces), Georgia, serif; font-size: 1.6rem; color: var(--texte); margin: 2.2rem 0 .8rem; letter-spacing: -0.01em; }
+.prose-socle h3 { font-weight: 600; color: var(--texte); margin: 1.6rem 0 .5rem; }
+.prose-socle p { margin: .8rem 0; }
+.prose-socle ul, .prose-socle ol { margin: .8rem 0; padding-left: 1.4rem; }
+.prose-socle ul { list-style: disc; }
+.prose-socle ol { list-style: decimal; }
+.prose-socle li { margin: .3rem 0; }
+.prose-socle a { color: var(--ambre); text-underline-offset: 3px; }
+.prose-socle a:hover { text-decoration: underline; }
+.prose-socle strong { color: var(--texte); }
+.prose-socle :not(pre) > code { font-family: var(--font-geist-mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--ligne); padding: .1rem .35rem; border-radius: .35rem; }
+.prose-socle blockquote { border-left: 3px solid var(--ambre); padding-left: 1rem; color: var(--discret); margin: 1rem 0; }
+.prose-socle table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 1rem 0; display: block; overflow-x: auto; }
+.prose-socle th, .prose-socle td { border: 1px solid var(--ligne-forte); padding: .4rem .6rem; text-align: left; }
+.prose-socle figure.code { margin: 1.2rem 0; border: 1px solid var(--ligne-forte); border-radius: .9rem; overflow: hidden; background: #121212; }
+.prose-socle figure.code figcaption { font-family: var(--font-geist-mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--discret); padding: .45rem .9rem; border-bottom: 1px solid var(--ligne); }
+.prose-socle figure.code pre { margin: 0; padding: 1rem; overflow-x: auto; font-size: .82rem; line-height: 1.6; }
+.prose-socle figure.code pre code { font-family: var(--font-geist-mono); }
+
+@keyframes battement { 0%, 100% { opacity: 1 } 50% { opacity: .35 } }
+.battement { animation: battement 1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
