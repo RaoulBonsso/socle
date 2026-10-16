@@ -1,0 +1,90 @@
+# CI autonome générée par Rampe (scripts/installer.sh --autonome) : pour un dépôt
+# public, qui ne peut pas appeler les workflows d'un dépôt privé. Mêmes étapes et
+# mêmes outils épinglés que Rampe. Les lignes marquées #@java / #@e2e sont
+# retirées par l'installeur quand le projet n'en a pas besoin.
+name: CI
+
+on:
+  push:
+    branches: [dev, main]
+    paths-ignore: ["**.md", "docs/**"]
+  pull_request:
+  schedule:
+    - cron: "0 5 * * 1" # lundi : scan complet des secrets de l'historique
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  qualite:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: ./package-lock.json
+      - run: npm ci
+      - name: Scripts
+        env:
+          SCRIPTS: lint typecheck test build
+        run: for s in $SCRIPTS; do npm run "$s"; done
+
+  secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: gitleaks (nouveaux commits ; tout l'historique en planifié)
+        env:
+          EVENEMENT: ${{ github.event_name }}
+          AVANT: ${{ github.event.before }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          TETE: ${{ github.event.pull_request.head.sha }}
+        run: |
+          opts=""
+          case "$EVENEMENT" in
+            pull_request) opts="$BASE..$TETE" ;;
+            push)
+              if [ -n "$AVANT" ] && [ "$AVANT" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$AVANT" 2>/dev/null; then
+                opts="$AVANT..$GITHUB_SHA"
+              else
+                opts="-1"
+              fi ;;
+          esac
+          args=(--redact --no-banner --exit-code 1)
+          [ -f .gitleaks.toml ] && args+=(--config /repo/.gitleaks.toml)
+          [ -n "$opts" ] && args+=("--log-opts=$opts")
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 git /repo "${args[@]}"
+
+  dependances:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: osv-scanner (signale sans bloquer)
+        run: |
+          set +e
+          docker run --rm -v "$PWD:/src:ro" ghcr.io/google/osv-scanner:v2.7.0 scan source --recursive /src > osv.txt 2>&1
+          code=$?
+          set -e
+          cat osv.txt
+          { echo "### Dépendances"; echo '```'; tail -n 40 osv.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          case "$code" in
+            0|128) exit 0 ;;
+            1) echo "::warning::Des dépendances ont des failles connues (voir le résumé)." ;;
+            *) exit "$code" ;;
+          esac
